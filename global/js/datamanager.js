@@ -235,7 +235,7 @@ function downloadFile(mydata) {
 
 
 // Client ID and API key from the Developer Console
-var CLIENT_ID = '196875539919-18arpm8l3es472u2pjpf1vi8qgj3rdtl.apps.googleusercontent.com';
+var CLIENT_ID = '534751476211-dfaedm3c3tk8p5rbou8qb23tcgj70j1i.apps.googleusercontent.com';
 var API_KEY = 'AIzaSyB9ud-XKr-0GKI6dqSnCNqSxqwb1ZO7FCM';
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
