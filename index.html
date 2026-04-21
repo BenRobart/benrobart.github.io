@@ -56,8 +56,12 @@
 }
 </script>
 
-<link rel="icon" type="image/png" href="images/favicon.png">
-<link rel="apple-touch-icon" href="images/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="shortcut icon" href="images/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+<link rel="manifest" href="images/favicon/site.webmanifest">
+<meta name="theme-color" content="#9e7cdd">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -1165,11 +1169,19 @@ section { padding: 110px 20px; }
 footer {
   padding: 40px 20px 50px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+footer .footer-social {
+  display: flex;
   justify-content: center;
   gap: 22px;
 }
 
-footer a {
+footer .footer-social a {
   width: 24px;
   height: 24px;
   display: flex;
@@ -1179,7 +1191,7 @@ footer a {
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-footer a:hover {
+footer .footer-social a:hover {
   color: var(--accent);
   transform: translateY(-2px);
 }
@@ -1187,6 +1199,127 @@ footer a:hover {
 footer svg {
   width: 20px;
   height: 20px;
+}
+
+footer .footer-license {
+  font-size: 12px;
+  color: var(--ink-faint);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+footer .footer-license a {
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 2px;
+}
+
+footer .footer-license a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* === PRIVACY BUTTON + POPUP === */
+.privacy-btn {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.privacy-btn:hover,
+.privacy-btn:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  outline: none;
+}
+
+.privacy-popup {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  z-index: 90;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.privacy-popup[aria-hidden="false"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.privacy-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.privacy-popup-title {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+}
+
+.privacy-popup-close {
+  background: transparent;
+  border: none;
+  color: var(--ink-faint);
+  cursor: pointer;
+  padding: 4px;
+  line-height: 0;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.privacy-popup-close:hover,
+.privacy-popup-close:focus-visible {
+  color: var(--accent);
+  outline: none;
+}
+
+.privacy-popup-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.privacy-popup-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 640px) {
+  .privacy-btn {
+    position: static;
+    transform: none;
+    margin-top: 4px;
+  }
 }
 
 /* === EARLIER EXPERIENCE (compact, two roles) === */
@@ -2063,10 +2196,28 @@ footer svg {
 </section>
 
 <footer class="section-alt">
-  <a href="https://www.linkedin.com/in/benr95/" target="_blank" aria-label="LinkedIn">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
-  </a>
+  <div class="footer-social">
+    <a href="https://www.linkedin.com/in/benr95/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+    </a>
+  </div>
+  <p class="footer-license">
+    © 2026 Ben Robart. Source code released under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>.
+  </p>
+  <button type="button" class="privacy-btn" id="privacyBtn" aria-expanded="false" aria-controls="privacyPopup">Cookies/Privacy Policy</button>
 </footer>
+
+<div class="privacy-popup" id="privacyPopup" role="dialog" aria-modal="false" aria-labelledby="privacyPopupTitle" aria-hidden="true">
+  <div class="privacy-popup-header">
+    <h3 class="privacy-popup-title" id="privacyPopupTitle">Cookies/Privacy Policy</h3>
+    <button type="button" class="privacy-popup-close" id="privacyPopupClose" aria-label="Close privacy policy">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <div class="privacy-popup-body">
+    I don't store any of your data at all unless you choose to contact me, in which case your information will only be used for contact relevant to your enquiry. You will not be subscribed to any newsletters and your details will never be shared with any third parties. This website is hosted by GitHub and uses a FormSpree.io embed for the contact form &mdash; please refer to their individual policies on usage of personal data.
+  </div>
+</div>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image" aria-hidden="true">
   <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close image">
@@ -2483,6 +2634,49 @@ footer svg {
     // Initial state after layout settles
     requestAnimationFrame(updateState);
   });
+
+  // === PRIVACY POPUP ===
+  (function () {
+    const btn = document.getElementById('privacyBtn');
+    const popup = document.getElementById('privacyPopup');
+    const closeBtn = document.getElementById('privacyPopupClose');
+    if (!btn || !popup || !closeBtn) return;
+
+    function openPopup() {
+      popup.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      closeBtn.focus();
+    }
+
+    function closePopup(returnFocus) {
+      popup.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      if (returnFocus) btn.focus();
+    }
+
+    function isOpen() {
+      return popup.getAttribute('aria-hidden') === 'false';
+    }
+
+    btn.addEventListener('click', () => {
+      if (isOpen()) closePopup(true);
+      else openPopup();
+    });
+
+    closeBtn.addEventListener('click', () => closePopup(true));
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen()) closePopup(true);
+    });
+
+    // Close when clicking outside the popup
+    document.addEventListener('click', (e) => {
+      if (!isOpen()) return;
+      if (popup.contains(e.target) || btn.contains(e.target)) return;
+      closePopup(false);
+    });
+  })();
 </script>
 
 <!-- Formspree AJAX -->
