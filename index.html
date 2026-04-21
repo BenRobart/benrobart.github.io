@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ben Robart — Full Stack Web Developer</title>
-<meta name="description" content="Portfolio of Ben Robart, a full stack web developer based in the UK. Experienced in HTML, CSS, JavaScript, Vue, React, PHP, Laravel, Node.js, WordPress, and Shopify, with a keen eye for accessible UX/UI and cross-functional team collaboration.">
+<meta name="description" content="Full stack web developer based in Glasgow. Experienced in HTML, CSS, JavaScript, Vue, React, PHP, Laravel, Node.js, WordPress, and Shopify, with a keen eye for accessible UX/UI and cross-functional team collaboration.">
 <meta name="author" content="Ben Robart">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://benrobart.github.io/">
@@ -62,6 +62,17 @@
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
 <link rel="manifest" href="images/favicon/site.webmanifest">
 <meta name="theme-color" content="#9e7cdd">
+<script>
+  // Apply theme before paint to avoid a flash of the wrong theme
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = stored || (prefersDark ? 'dark' : 'light');
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) { /* ignore */ }
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -76,7 +87,40 @@
   --bg: #ffffff;
   --bg-alt: #faf8fd;
   --placeholder: #c8c6c2;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --nav-bg-open: rgba(255, 255, 255, 0.96);
+  --chrome-bg: rgba(255, 255, 255, 0.9);
+  --chrome-bg-soft: rgba(255, 255, 255, 0.7);
+  --chrome-bg-strong: rgba(255, 255, 255, 0.95);
+  --chrome-bg-stronger: rgba(255, 255, 255, 0.92);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lift: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
+
+html[data-theme="dark"] {
+  --accent: #b89aea;
+  --accent-soft: #b89aea22;
+  --ink: #ececec;
+  --ink-soft: #b8b8b8;
+  --ink-faint: #7a7a7a;
+  --rule: #2e2e34;
+  --bg: #121216;
+  --bg-alt: #1a1820;
+  --placeholder: #2a2a30;
+  --nav-bg: rgba(18, 18, 22, 0.85);
+  --nav-bg-open: rgba(18, 18, 22, 0.96);
+  --chrome-bg: rgba(30, 30, 36, 0.9);
+  --chrome-bg-soft: rgba(30, 30, 36, 0.7);
+  --chrome-bg-strong: rgba(30, 30, 36, 0.95);
+  --chrome-bg-stronger: rgba(30, 30, 36, 0.92);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lift: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -90,6 +134,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a { color: var(--ink); text-decoration: none; transition: color 0.2s ease; }
@@ -124,7 +169,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: space-between;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--nav-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
@@ -227,6 +272,23 @@ img { max-width: 100%; display: block; }
   border-color: var(--ink-soft);
 }
 
+/* Dark mode: accent is lighter, so white text loses contrast —
+   use dark ink text on the primary button instead. */
+html[data-theme="dark"] .btn:hover,
+html[data-theme="dark"] .btn.primary,
+html[data-theme="dark"] .carousel-arrow:hover,
+html[data-theme="dark"] .gallery-arrow:hover,
+html[data-theme="dark"] .lightbox-close:hover,
+html[data-theme="dark"] .lightbox-arrow:hover {
+  color: #121216;
+}
+
+html[data-theme="dark"] .btn.primary:hover {
+  background: #ececec;
+  border-color: #ececec;
+  color: #121216;
+}
+
 /* === HAMBURGER === */
 .nav-toggle {
   display: none;
@@ -277,7 +339,7 @@ img { max-width: 100%; display: block; }
     left: 0;
     right: 0;
     padding: 32px 28px 40px;
-    background: rgba(255, 255, 255, 0.96);
+    background: var(--nav-bg-open);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
@@ -661,7 +723,7 @@ section { padding: 110px 20px; }
   height: 38px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--chrome-bg);
   color: var(--ink);
   cursor: pointer;
   display: flex;
@@ -705,7 +767,7 @@ section { padding: 110px 20px; }
   gap: 8px;
   z-index: 3;
   padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--chrome-bg-soft);
   border-radius: 100px;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -816,7 +878,7 @@ section { padding: 110px 20px; }
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--chrome-bg-strong);
   color: var(--ink);
   cursor: pointer;
   display: flex;
@@ -824,7 +886,7 @@ section { padding: 110px 20px; }
   justify-content: center;
   transition: background 0.25s ease, color 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
   z-index: 3;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -1314,7 +1376,7 @@ footer .footer-license a:hover {
   color: var(--ink-soft);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .privacy-btn {
     position: static;
     transform: none;
@@ -1711,7 +1773,7 @@ footer .footer-license a:hover {
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--chrome-bg-stronger);
   color: var(--ink);
   cursor: pointer;
   display: flex;
@@ -1764,6 +1826,61 @@ footer .footer-license a:hover {
   }
   .lightbox-arrow.prev { left: 10px; }
   .lightbox-arrow.next { right: 10px; }
+}
+
+/* === THEME TOGGLE === */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--chrome-bg-strong);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-card);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  z-index: 90;
+  padding: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.theme-toggle:active { transform: translateY(0); }
+
+.theme-toggle svg { width: 20px; height: 20px; }
+
+/* Show sun in dark mode, moon in light mode */
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+@media (max-width: 600px) {
+  .theme-toggle {
+    bottom: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+  }
+  .theme-toggle svg { width: 18px; height: 18px; }
 }
 </style>
 </head>
@@ -2142,7 +2259,9 @@ footer .footer-license a:hover {
   <div class="container">
     <div class="section-title reveal"><h2>Interests</h2></div>
     <div class="interests-inner reveal">
-	<p>Cryptic crosswords*, cyberpunk/dystopian fiction (both reading and writing), It's Always Sunny in Philadelphia, Peep Show, arts/crafts (specifically traditional-style tattoos and 2D felt work), Rocket League, and a <a href="https://open.spotify.com/user/bens_dream?si=f7d5988ec1e24bb0">diverse range of music</a>.</p>
+	<p>Cryptic crosswords*, cyberpunk/dystopian fiction (both reading and writing), It's Always Sunny in Philadelphia, Peep Show, arts/crafts (specifically traditional-style tattoos and 2D felt work), Rocket League, and a <a href="https://open.spotify.com/user/bens_dream?si=f7d5988ec1e24bb0">diverse range of music</a>.<br><br>
+	Sadly I was also born with the curse of supporting Tottenham Hotspur, but we don't need to talk about that.<br><br>
+	I'm also a parent to 3 chaotic guinea pigs who seem to be incredibly skilled at stressing me out in as many ways as possible!</p>
 	<br>
 	<p class="footnote">*A die-hard follower of Ximenean rules - if you know what that means then please feel free to get in touch even if you're not hiring!</p></div>
   </div>
@@ -2685,6 +2804,60 @@ footer .footer-license a:hover {
   formspree('initForm', { formElement: '#contact-form', formId: 'xbdqalzr' });
 </script>
 <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+<!-- Theme toggle -->
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" aria-pressed="false" title="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </svg>
+</button>
+<script>
+  (function () {
+    var toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+    var root = document.documentElement;
+
+    function syncState() {
+      var isDark = root.getAttribute('data-theme') === 'dark';
+      toggle.setAttribute('aria-pressed', String(isDark));
+      toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      toggle.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+
+    function setTheme(theme) {
+      if (theme === 'dark') root.setAttribute('data-theme', 'dark');
+      else root.removeAttribute('data-theme');
+      try { localStorage.setItem('theme', theme); } catch (e) { /* ignore */ }
+      syncState();
+    }
+
+    syncState();
+
+    toggle.addEventListener('click', function () {
+      var isDark = root.getAttribute('data-theme') === 'dark';
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // Follow OS changes only if the user hasn't chosen explicitly
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      var onChange = function (e) {
+        var stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (err) { /* ignore */ }
+        if (stored) return;
+        if (e.matches) root.setAttribute('data-theme', 'dark');
+        else root.removeAttribute('data-theme');
+        syncState();
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    }
+  })();
+</script>
 
 </body>
 </html>
