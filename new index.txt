@@ -1498,30 +1498,19 @@ footer svg {
   border-radius: 4px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   transform: scale(0.96);
-  transition: transform 0.25s ease, opacity 0.2s ease;
+  transition: transform 0.25s ease;
   user-select: none;
-  -webkit-user-select: none;
   -webkit-user-drag: none;
-  cursor: grab;
-  touch-action: pan-y;
 }
 
 .lightbox.open img {
   transform: scale(1);
 }
 
-.lightbox.dragging img {
-  transition: none;
-  cursor: grabbing;
-}
-
-.lightbox.fading img {
-  opacity: 0;
-}
-
-.lightbox-close,
-.lightbox-arrow {
+.lightbox-close {
   position: fixed;
+  top: 20px;
+  right: 20px;
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -1538,32 +1527,19 @@ footer svg {
   z-index: 1001;
 }
 
-.lightbox-close { top: 20px; right: 20px; }
-
-.lightbox-arrow {
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.lightbox-arrow.prev { left: 20px; }
-.lightbox-arrow.next { right: 20px; }
-
-.lightbox-close:hover,
-.lightbox-arrow:hover {
+.lightbox-close:hover {
   background: var(--accent);
   color: white;
 }
 
-.lightbox-close:active { transform: scale(0.94); }
-.lightbox-arrow:active { transform: translateY(-50%) scale(0.94); }
+.lightbox-close:active {
+  transform: scale(0.94);
+}
 
-.lightbox-close svg,
-.lightbox-arrow svg {
+.lightbox-close svg {
   width: 18px;
   height: 18px;
 }
-
-.lightbox-arrow[hidden] { display: none; }
 
 @media (max-width: 480px) {
   .lightbox { padding: 50px 12px; }
@@ -1573,12 +1549,6 @@ footer svg {
     width: 38px;
     height: 38px;
   }
-  .lightbox-arrow {
-    width: 38px;
-    height: 38px;
-  }
-  .lightbox-arrow.prev { left: 10px; }
-  .lightbox-arrow.next { right: 10px; }
 }
 </style>
 </head>
@@ -2020,12 +1990,6 @@ footer svg {
   <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close image">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
   </button>
-  <button type="button" class="lightbox-arrow prev" id="lightboxPrev" aria-label="Previous image">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-  </button>
-  <button type="button" class="lightbox-arrow next" id="lightboxNext" aria-label="Next image">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-  </button>
   <img id="lightboxImg" src="" alt="">
 </div>
 
@@ -2036,42 +2000,17 @@ footer svg {
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxClose = document.getElementById('lightboxClose');
-  const lightboxPrev = document.getElementById('lightboxPrev');
-  const lightboxNext = document.getElementById('lightboxNext');
   let lightboxPrevOverflow = '';
-  let lightboxItems = [];   // [{ src, alt }, ...]
-  let lightboxIndex = 0;
 
-  function showLightboxImage(index) {
-    if (!lightboxItems.length) return;
-    lightboxIndex = (index + lightboxItems.length) % lightboxItems.length;
-    const item = lightboxItems[lightboxIndex];
-    lightboxImg.src = item.src;
-    lightboxImg.alt = item.alt || '';
-    // Hide arrows if there's only one image
-    const hasMultiple = lightboxItems.length > 1;
-    lightboxPrev.hidden = !hasMultiple;
-    lightboxNext.hidden = !hasMultiple;
-  }
-
-  function lightboxGoTo(index) {
-    if (index === lightboxIndex) return;
-    // Quick cross-fade so it doesn't feel jarring
-    lightbox.classList.add('fading');
-    setTimeout(() => {
-      showLightboxImage(index);
-      lightbox.classList.remove('fading');
-    }, 150);
-  }
-
-  function openLightbox(items, index) {
-    if (!items || !items.length) return;
-    lightboxItems = items;
-    showLightboxImage(index || 0);
+  function openLightbox(src, alt) {
+    if (!src) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
     lightbox.classList.add('open');
     lightbox.setAttribute('aria-hidden', 'false');
     lightboxPrevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    // Move focus to the close button for keyboard users
     lightboxClose.focus();
   }
 
@@ -2080,79 +2019,18 @@ footer svg {
     lightbox.classList.remove('open');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = lightboxPrevOverflow;
-    setTimeout(() => { lightboxImg.src = ''; lightboxItems = []; }, 250);
+    // Clear src shortly after the transition so we don't flash the old image next time
+    setTimeout(() => { lightboxImg.src = ''; }, 250);
   }
 
   lightboxClose.addEventListener('click', closeLightbox);
-  lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); lightboxGoTo(lightboxIndex - 1); });
-  lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); lightboxGoTo(lightboxIndex + 1); });
-
   // Click outside the image (on the backdrop) also closes
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
-
-  // Keyboard: Escape closes, arrows navigate
   document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    else if (e.key === 'ArrowLeft' && lightboxItems.length > 1) lightboxGoTo(lightboxIndex - 1);
-    else if (e.key === 'ArrowRight' && lightboxItems.length > 1) lightboxGoTo(lightboxIndex + 1);
+    if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
   });
-
-  // === LIGHTBOX DRAG / SWIPE ===
-  (function () {
-    let startX = 0;
-    let deltaX = 0;
-    let dragging = false;
-    let hasMoved = false;
-    let pointerId = null;
-    const DRAG_THRESHOLD = 10;    // px of movement before we consider it a drag at all
-    const SWIPE_DISTANCE = 100;   // px required to change image
-
-    lightboxImg.addEventListener('pointerdown', (e) => {
-      if (lightboxItems.length <= 1) return;
-      dragging = true;
-      hasMoved = false;
-      pointerId = e.pointerId;
-      startX = e.clientX;
-      deltaX = 0;
-      lightboxImg.setPointerCapture(pointerId);
-    });
-
-    lightboxImg.addEventListener('pointermove', (e) => {
-      if (!dragging || e.pointerId !== pointerId) return;
-      deltaX = e.clientX - startX;
-      // Only start visually tracking once the user has moved past the drag threshold.
-      // This avoids tiny jitters on click from being read as a drag.
-      if (!hasMoved && Math.abs(deltaX) > DRAG_THRESHOLD) {
-        hasMoved = true;
-        lightbox.classList.add('dragging');
-      }
-      if (hasMoved) {
-        lightboxImg.style.transform = `translateX(${deltaX}px) scale(1)`;
-      }
-    });
-
-    function endDrag(e) {
-      if (!dragging) return;
-      dragging = false;
-      lightbox.classList.remove('dragging');
-      lightboxImg.style.transform = '';
-
-      // Only consider a swipe if the user actually dragged past SWIPE_DISTANCE
-      if (hasMoved && Math.abs(deltaX) > SWIPE_DISTANCE) {
-        if (deltaX < 0) lightboxGoTo(lightboxIndex + 1);
-        else lightboxGoTo(lightboxIndex - 1);
-      }
-      deltaX = 0;
-      hasMoved = false;
-    }
-
-    lightboxImg.addEventListener('pointerup', endDrag);
-    lightboxImg.addEventListener('pointercancel', endDrag);
-    lightboxImg.addEventListener('dragstart', (e) => e.preventDefault());
-  })();
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) nav.classList.add('scrolled');
@@ -2312,15 +2190,9 @@ footer svg {
 
       // True click (no meaningful drag) → open the current slide's image in the lightbox
       if (!moved && e.type === 'pointerup') {
-        const items = slides
-          .map(s => s.querySelector('img'))
-          .filter(img => img && img.src)
-          .map(img => ({ src: img.src, alt: img.alt }));
-        if (items.length) {
-          // Find the index in our filtered list that matches the current slide's image
-          const currentImg = slides[current].querySelector('img');
-          const idx = currentImg ? items.findIndex(i => i.src === currentImg.src) : 0;
-          openLightbox(items, Math.max(0, idx));
+        const img = slides[current].querySelector('img');
+        if (img && img.src) {
+          openLightbox(img.src, img.alt);
         }
       }
 
@@ -2420,12 +2292,7 @@ footer svg {
       if (!item) return;
       const img = item.querySelector('img');
       if (!img || !img.src) return;
-      // Build list of all images in this gallery
-      const allImgs = Array.from(strip.querySelectorAll('.gallery-item img'))
-        .filter(i => i.src);
-      const items = allImgs.map(i => ({ src: i.src, alt: i.alt }));
-      const idx = allImgs.indexOf(img);
-      openLightbox(items, Math.max(0, idx));
+      openLightbox(img.src, img.alt);
     });
 
     // Initial state after layout settles
