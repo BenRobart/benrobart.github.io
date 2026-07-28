@@ -1,0 +1,44 @@
+# Ben Robart – Web Developer
+
+> Full stack web developer based in Glasgow, UK. I build websites, online shops, booking systems, and web apps – then get them found with SEO/AEO, PPC, social media, and email marketing. Available for freelance projects, and open to the right full-time remote or hybrid role.
+
+Key facts:
+
+- Location: Glasgow, UK (remote-friendly)
+- Contact: robartben@gmail.com or +44 7921 835288
+- LinkedIn: https://www.linkedin.com/in/benr95/
+- Pricing model: flat fees agreed up front, no percentage-of-budget fees, no lock-in
+- Tech: HTML, CSS, JavaScript, Vue, React, Angular, Tailwind CSS, PHP, Python, Laravel, MySQL, PostgreSQL, Node.js, WordPress, WooCommerce, Shopify, Zapier, Airtable
+
+## Services
+
+All prices in GBP. Full breakdowns at https://benrobart.github.io/#services
+
+- Website Design & Build: from £499. Brochure sites, online shops, booking systems, and custom web apps on WordPress, WooCommerce, Shopify, or a fully custom stack (Laravel, Vue). Mobile-first and accessible, editable by the client, search-ready basics included, no vendor lock-in. £499 covers a straightforward brochure site; shops and web apps are quoted individually.
+- SEO & AI Search Visibility (AEO), one-off pass: £250. A single top-to-bottom optimisation: natural-language content, schema tags, FAQ and Q&A blocks, descriptive alt text, EEAT verification, high-intent keyword research, and Google Business Profile set-up or optimisation.
+- SEO & AI Search Visibility (AEO), ongoing: £210 per month. Everything in the one-off pass plus monthly performance reports with implementation, behaviour tracking via Microsoft Clarity, decay prevention against algorithm shifts, and competitor monitoring. Optional add-on with either option: two SEO'd and AEO'd blog posts per month for £50.
+- PPC Management: £250 per campaign per month, ad budget separate. Flat management fee rather than a percentage of ad spend. Custom ad assets, high-intent targeting, A/B testing, and continuous optimisation. One full campaign included; additional platforms (Meta, LinkedIn) £100 per campaign per month each.
+- Social Media Management: £250 per month. Two posts per week with custom graphics and captions in the client's brand voice, collaborative content planning, and community engagement. Additional platforms £100 per month each.
+- Newsletter Management: £100 per month for a monthly send, £250 per month for weekly. Design and layout, content integration, list management and deliverability, welcome automations, and open/click reporting. No platform costs until 2,500 subscribers.
+- Market & Competitor Research: £250 per report, covering the client's market and up to three competitors in depth; additional competitors £50 each. Competitor profiling, search presence, pricing analysis, gap analysis, and a prioritised list of plain-English recommendations. Ongoing competitor monitoring is included in the monthly SEO service; this report is the deeper one-off version.
+- Process Documentation: from £150 per process. Step-by-step write-ups in one agreed format, edge cases included, written so a new starter could follow them on day one.
+- Workflow Automation: priced per project. Automations built with Zapier and Airtable (no need to be using either already) connecting forms, bookings, invoices, and spreadsheets, tested alongside the manual process and documented as standard.
+- Bundles: SEO and PPC together for £400 per month (one campaign, one platform), or the all-in-one (SEO, PPC, one social platform, a weekly newsletter, and four blog posts per month) for £900 per month.
+
+## Selected work
+
+- [Vertex Agility](https://vertexagility.com/): rebuilt the company's main website (PHP, Python, WordPress, JavaScript) with the goal of moving away from vendor lock-in, including an agentic AI assistant.
+- [Worthy Women](https://worthywomen.uk): client website build.
+- [Aspire Procurement](https://aspireprocurement.co.uk/): client website build.
+- [Projects](https://benrobart.github.io/#project): further work, including a leisure park booking system (Laravel, Vue, Tailwind CSS, MySQL), an AI-powered marketing tool integrated with GA4 and Google Search Console, Shopify and WooCommerce stores, and an eLearning WordPress network.
+
+## Experience and CV
+
+- [Experience](https://benrobart.github.io/#experience): current roles include freelance full stack web development and Marketing Lead at Vertex Agility.
+- [CV](https://benrobart.github.io/CV%20-%20Ben%20Robart.pdf): downloadable CV (PDF) for recruiters.
+- [Contact](https://benrobart.github.io/#contact): enquiry form, email, and phone.
+
+## Optional
+
+- [Tech stack](https://benrobart.github.io/#tech-stack): full list of frontend, backend, CMS/eCommerce, and workflow tools.
+- [Interests](https://benrobart.github.io/#interests): the human bits – cryptic crosswords (Ximenean), writing, and three chaotic guinea pigs.
